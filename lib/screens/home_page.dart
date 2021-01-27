@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memo_app/models/post.dart';
 import 'package:memo_app/models/post_state.dart';
+import 'package:memo_app/screens/edit_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,6 +24,23 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text("Memo"),
         centerTitle: true,
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                var result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => EditPage(),
+                  ),
+                );
+
+                if (result == 'refresh') setState(() {});
+              })
+        ],
       ),
       body: ListView.builder(
         itemCount: postState.postList.length,
