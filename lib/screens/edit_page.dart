@@ -50,6 +50,7 @@ class _EditPageState extends State<EditPage> {
           ],
         ),
       ),
+      bottomNavigationBar: bottomNavigationBar(),
     );
   }
 
@@ -61,10 +62,10 @@ class _EditPageState extends State<EditPage> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(
-          Radius.circular(20),
+          Radius.circular(10),
         ),
         border: Border.all(
-          color: Colors.blueAccent,
+          color: Colors.grey,
           width: 1,
         ),
       ),
@@ -83,14 +84,14 @@ class _EditPageState extends State<EditPage> {
       margin: EdgeInsets.all(15),
       padding: EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.75,
+      height: MediaQuery.of(context).size.height * 0.7,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(
-          Radius.circular(20),
+          Radius.circular(10),
         ),
         border: Border.all(
-          color: Colors.blueAccent,
+          color: Colors.grey,
           width: 1,
         ),
       ),
@@ -101,6 +102,42 @@ class _EditPageState extends State<EditPage> {
           hintText: '내용을 입력해주세요',
         ),
       ),
+    );
+  }
+
+  BottomNavigationBar bottomNavigationBar() {
+    return BottomNavigationBar(
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.white,
+      currentIndex: 0,
+      onTap: (int index) {
+        if (index == 0) {
+          showModalBottomSheet(
+            context: context,
+            builder: (BuildContext context) {
+              return Container();
+            },
+          );
+        }
+      },
+      items: [
+        BottomNavigationBarItem(
+          label: "",
+          icon: Icon(
+            Icons.text_fields,
+            color: Colors.black87,
+          ),
+        ),
+        BottomNavigationBarItem(
+          label: "",
+          icon: Icon(
+            Icons.image,
+            color: Colors.black87,
+          ),
+        )
+      ],
     );
   }
 }
