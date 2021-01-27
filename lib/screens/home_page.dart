@@ -13,6 +13,7 @@ class _HomePageState extends State<HomePage> {
         title: Text("Memo"),
         centerTitle: true,
       ),
+      body: Column(),
     );
   }
 }
