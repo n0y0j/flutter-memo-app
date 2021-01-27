@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memo_app/models/font_state.dart';
 import 'package:memo_app/models/post.dart';
 import 'package:memo_app/models/post_state.dart';
 import 'package:provider/provider.dart';
@@ -13,10 +14,13 @@ class _EditPageState extends State<EditPage> {
   final contentController = TextEditingController();
 
   var postState;
+  var fontState;
 
   @override
   Widget build(BuildContext context) {
     postState = Provider.of<PostState>(context, listen: false);
+    fontState = Provider.of<FontState>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Edit"),
@@ -101,6 +105,8 @@ class _EditPageState extends State<EditPage> {
           border: InputBorder.none,
           hintText: '내용을 입력해주세요',
         ),
+        style: TextStyle(
+            fontWeight: (fontState.bold) ? FontWeight.bold : FontWeight.normal),
       ),
     );
   }
@@ -114,12 +120,7 @@ class _EditPageState extends State<EditPage> {
       currentIndex: 0,
       onTap: (int index) {
         if (index == 0) {
-          showModalBottomSheet(
-            context: context,
-            builder: (BuildContext context) {
-              return Container();
-            },
-          );
+          showBottomSheet();
         }
       },
       items: [
@@ -139,5 +140,66 @@ class _EditPageState extends State<EditPage> {
         )
       ],
     );
+  }
+
+  showBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+            return Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.check, color: Colors.black),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+                title: Text(
+                  "글꼴 설정",
+                  style: TextStyle(color: Colors.black),
+                ),
+                centerTitle: true,
+              ),
+              body: Column(
+                children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.001),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          fontState.changeBold(!fontState.bold);
+                          setState(() {});
+                        },
+                        child: Container(
+                          color: (!fontState.bold)
+                              ? Colors.white
+                              : Colors.blueAccent[100],
+                          child: Icon(
+                            Icons.format_bold,
+                            color: Colors.black,
+                            size: MediaQuery.of(context).size.width * 0.13,
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            );
+          });
+        });
   }
 }
